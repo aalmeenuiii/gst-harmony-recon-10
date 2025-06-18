@@ -13,12 +13,15 @@ import {
   AlertTriangle
 } from "lucide-react";
 import { ReconciliationResult } from "@/pages/GSTReconciliation";
+import { useToast } from "@/hooks/use-toast";
 
 interface ReportsSectionProps {
   reconciliationResults: ReconciliationResult[];
 }
 
 const ReportsSection: React.FC<ReportsSectionProps> = ({ reconciliationResults }) => {
+  const { toast } = useToast();
+
   const formatDate = (date: Date) => {
     return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
   };
@@ -38,6 +41,44 @@ const ReportsSection: React.FC<ReportsSectionProps> = ({ reconciliationResults }
       case 'failed': return <AlertTriangle className="h-4 w-4" />;
       default: return <BarChart3 className="h-4 w-4" />;
     }
+  };
+
+  const handleViewReport = (result: ReconciliationResult) => {
+    // Simulate opening a detailed view of the report
+    toast({
+      title: "Opening Report Viewer",
+      description: `Loading detailed view for Report #${result.id}`,
+    });
+    
+    // In a real application, this would open a modal or navigate to a detailed view
+    console.log("Viewing report:", result);
+  };
+
+  const handleDownloadReport = (result: ReconciliationResult) => {
+    // Simulate downloading the report file
+    toast({
+      title: "Download Started",
+      description: `Downloading ${result.reportPath || 'reconciliation_report.xlsx'}`,
+    });
+    
+    // Create a mock download simulation
+    const link = document.createElement('a');
+    link.href = '#'; // In real app, this would be the actual file URL
+    link.download = result.reportPath || `reconciliation_report_${result.id}.xlsx`;
+    
+    // Simulate file content for download
+    const csvContent = `Report ID,${result.id}\nTimestamp,${result.timestamp}\nGSTR-2A File,${result.gstr2aFile}\nInvoice File,${result.invoiceFile}\nMatched Records,${result.matchedRecords}\nUnmatched Records,${result.unmatchedRecords}\nMatch Rate,${Math.round((result.matchedRecords / (result.matchedRecords + result.unmatchedRecords)) * 100)}%`;
+    
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    link.href = url;
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+    
+    console.log("Downloaded report:", result.reportPath);
   };
 
   return (
@@ -133,11 +174,18 @@ const ReportsSection: React.FC<ReportsSectionProps> = ({ reconciliationResults }
                     
                     {result.status === 'completed' && (
                       <div className="flex gap-2">
-                        <Button variant="outline" size="sm">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => handleViewReport(result)}
+                        >
                           <Eye className="h-4 w-4 mr-1" />
                           View
                         </Button>
-                        <Button size="sm">
+                        <Button 
+                          size="sm"
+                          onClick={() => handleDownloadReport(result)}
+                        >
                           <Download className="h-4 w-4 mr-1" />
                           Download
                         </Button>
