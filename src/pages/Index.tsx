@@ -106,7 +106,7 @@ const Index = () => {
               <CardDescription>
                 Intelligent matching algorithms with comprehensive variance analysis and exception handling.
               </CardDescription>
-            </CardContent>
+            </CardHeader>
             <CardContent>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>• Multi-criteria matching</li>
@@ -126,7 +126,7 @@ const Index = () => {
               <CardDescription>
                 Built-in fraud detection mechanisms with comprehensive error handling and validation.
               </CardDescription>
-            </CardContent>
+            </CardHeader>
             <CardContent>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>• Anomaly detection</li>
@@ -146,7 +146,7 @@ const Index = () => {
               <CardDescription>
                 Professional report generation with automatic export and comprehensive analytics.
               </CardDescription>
-            </CardContent>
+            </CardHeader>
             <CardContent>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>• Instant report generation</li>
@@ -166,7 +166,7 @@ const Index = () => {
               <CardDescription>
                 Interactive dashboard with real-time insights and comprehensive data visualization.
               </CardDescription>
-            </CardContent>
+            </CardHeader>
             <CardContent>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>• Real-time statistics</li>
